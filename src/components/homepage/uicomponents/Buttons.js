@@ -9,7 +9,7 @@ const Buttons = () => (
     pos="absolute"
     w={{ xs: "100%", md: "auto" }}
     m={{ xs: "1rem", md: "0" }}
-    pos={{ xs: "static", md: "absolute" }}
+    // pos={{ xs: "static", md: "absolute" }}
     left={{ md: "2rem", lg: "0" }}
     top="0"
   >

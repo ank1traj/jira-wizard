@@ -10,6 +10,7 @@ import Craft from "../components/homepage/Craft"
 import DesignDevelopment from "../components/homepage/DesignDevelopment"
 import GetStartedBanner from "../components/homepage/GetStartedBanner"
 import Footer from "../components/homepage/Footer"
+import BackToTopSection from "../components/common/BackToTopSection"
 
 const IndexPage = () => (
   <Layout>
@@ -24,6 +25,7 @@ const IndexPage = () => (
     <Craft />
     <DesignDevelopment />
     <GetStartedBanner />
+    <BackToTopSection />
     <Footer />
   </Layout>
 )

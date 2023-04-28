@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `Atomize React`,
-    description: `Atomize is a UI design framework that helps designers and developers design well-structured, scalable and more consistent interfaces for the web. It is based on Atomic design methodology which has atoms and molecules as reusable building blocks.`,
-    author: `@proksh`,
-    siteUrl: `https://atomizecode.com/`,
+    title: `Jira Wizard - Jira Automation Made Easy`,
+    description: `Jira Wizard is a Jira automation tool that allows you to automate your Jira workflows with ease.`,
+    author: `@ankit`,
+    siteUrl: `https://jira-wizard.vercel.app/`,
   },
   plugins: [
     {
@@ -24,8 +24,8 @@ module.exports = {
     {
       resolve: "gatsby-plugin-robots-txt",
       options: {
-        host: "https://atomizecode.com/",
-        sitemap: "https://atomizecode.com/sitemap.xml",
+        host: "",
+        sitemap: "",
         policy: [{ userAgent: "*", allow: "/" }],
       },
     },
@@ -49,7 +49,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#ffffff`,
         display: `minimal-ui`,
-        icon: `src/images/atomize-icon.svg`, // This path is relative to the root of the site.
+        icon: `src/images/jira_wizard-icon.svg`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

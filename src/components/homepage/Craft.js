@@ -1,6 +1,6 @@
 import React from "react"
 import Highlight, { defaultProps } from "prism-react-renderer"
-import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
+import { Div, Text, Container, Image, Icon } from "atomize"
 import codeTheme from "../common/codeTheme"
 import "./craft.css"
 

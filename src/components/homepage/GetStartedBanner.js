@@ -86,7 +86,10 @@ const GettingStartedBanner = () => {
           >
             <Div>
               <Text textSize="heading" textWeight="600" m={{ b: "0.5rem" }}>
-                More files support are on their way 🚀
+                More files support are on their way
+                <span role="img" aria-label="rocket">
+                  🚀
+                </span>
               </Text>
               <Text
                 textSize="subheader"
@@ -94,7 +97,10 @@ const GettingStartedBanner = () => {
                 m={{ b: { xs: "3rem", lg: "0" } }}
               >
                 Jira Wizard will soon support a wider range of file formats,
-                making bulk issue creation even easier. Stay tuned! 🚀
+                making bulk issue creation even easier. Stay tuned!
+                <span role="img" aria-label="rocket">
+                  🚀
+                </span>
               </Text>
             </Div>
             <Div d="flex" align="flex-end">

@@ -1,16 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
-import {
-  Div,
-  Text,
-  Row,
-  Col,
-  Container,
-  Image,
-  Icon,
-  Button,
-  Tag,
-} from "atomize"
+import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
 
 import * as XLSX from "xlsx"
 import toast, { Toaster } from "react-hot-toast"
@@ -61,11 +51,9 @@ const featuresList = [
 
 export default function Features() {
   const [file, setFile] = useState(null)
-  const [error, setError] = useState(null)
   const [isValid, setIsValid] = useState(false) // added state variable
   const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
   const [selectedFileName, setSelectedFileName] = useState("hello")
-  const JIRA_API_BASE_URL = "https://hackerearth.atlassian.net/rest/api/3"
   const email = "navaneethakrishnan@hackerearth.com"
   const token = "ZvCGnS4bjsMlhOgZ7xCM1D7D"
 
@@ -128,7 +116,6 @@ export default function Features() {
               field => !headers.includes(field)
             )
             if (missingFields.length === 0) {
-              setError(null)
               setSelectedFileName(selectedFile.name)
               setFile(data)
               setIsValid(true)

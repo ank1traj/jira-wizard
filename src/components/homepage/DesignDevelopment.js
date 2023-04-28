@@ -1,6 +1,5 @@
 import React from "react"
-import { Link } from "gatsby"
-import { Div, Text, Row, Col, Container, Anchor, Icon, Image } from "atomize"
+import { Div, Text, Row, Col, Container, Image } from "atomize"
 
 import logoSketch from "../../images/logo-sketch.svg"
 import logoReact from "../../images/logo-react.svg"

@@ -1,10 +1,7 @@
 import React from "react"
-import { Link } from "gatsby"
 
-import { Button, Container, Text, Div, Icon, Input, Anchor } from "atomize"
+import { Button, Container, Text, Div, Icon, Anchor } from "atomize"
 
-import boy from "../../images/avatar/boy.png"
-import cardImg from "../../images/hero-illustration/card-img.png"
 import FollowCard from "./uicomponents/FollowCard"
 import UserEdit from "./uicomponents/UserEdit"
 import Buttons from "./uicomponents/Buttons"
