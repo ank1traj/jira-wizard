@@ -24,8 +24,8 @@ module.exports = {
     {
       resolve: "gatsby-plugin-robots-txt",
       options: {
-        host: "",
-        sitemap: "",
+        host: "https://jira-wizard.vercel.app/",
+        sitemap: "https://jira-wizard.vercel.app/sitemap.xml",
         policy: [{ userAgent: "*", allow: "/" }],
       },
     },
