@@ -27,171 +27,198 @@ import icon6 from "../../images/feature-icons/6.svg"
 const featuresList = [
   {
     icon: icon5,
-    heading: "Atomic",
-    subheading: "Based on Atomic Design Methodology.",
+    heading: "Rest API",
+    subheading: "Built on top of a robust Rest API.",
   },
   {
     icon: icon2,
-    heading: "Theme Setup",
-    subheading: "Auto updating colors and Styleguide.",
+    heading: "XLSX",
+    subheading: "Upload your XLSX files and get started.",
   },
-
   {
     icon: icon4,
-    heading: "Components",
-    subheading: "Ever-increasing list of components.",
+    heading: "Jira",
+    subheading: "No need to go to Jira, we got you covered.",
   },
 
   {
     icon: icon6,
-    heading: "Responsive",
-    subheading: "Build fully responsive structures easily.",
+    heading: "Test Cases",
+    subheading: "Create Test Cases and add them to your Test Plan.",
   },
 
   {
     icon: icon3,
-    heading: "Customisation",
-    subheading: "Multiple customisations to suit your style.",
+    heading: "Customisable",
+    subheading: "Customise your XLSX file as per your needs.",
   },
   {
     icon: icon1,
-    heading: "Icon System",
-    subheading: "An inbuilt Icon system for faster development.",
+    heading: "Ligthning Fast",
+    subheading: "Create Issues/Test Cases in a jiffy.",
   },
 ]
 
 export default function Features() {
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [fileName, setFileName] = useState("")
   const [file, setFile] = useState(null)
   const [error, setError] = useState(null)
   const [isValid, setIsValid] = useState(false) // added state variable
+  const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
+  const [selectedFileName, setSelectedFileName] = useState("hello")
   const JIRA_API_BASE_URL = "https://hackerearth.atlassian.net/rest/api/3"
+  const email = "navaneethakrishnan@hackerearth.com"
+  const token = "ZvCGnS4bjsMlhOgZ7xCM1D7D"
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
+    if (!selectedFile) {
+      // handle error when user presses "Esc" key or doesn't select a file
+      setIsValid(false)
+      return
+    }
     if (
       selectedFile.type !==
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
       toast.error("Error: Invalid file format")
+      setIsValid(false)
       return
     }
-    const fileReader = new FileReader()
-    fileReader.onload = () => {
-      try {
-        const workbook = XLSX.read(fileReader.result, { type: "binary" })
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-        // Extract headers from first row
-        const headers = Object.keys(worksheet)
-          .filter(key => key[1] === "1")
-          .map(key => worksheet[key].v)
+    if (selectedFile.name === selectedFileName) {
+      toast.error("Error: Same file uploaded")
+      setIsValid(true)
+      return
+    }
 
-        const data = []
-        // Iterate over rows, starting from row 2
-        for (let i = 2; i <= worksheet["!ref"].split(":")[1][1]; i++) {
-          const row = {}
-          // Iterate over columns
-          for (let j = 0; j < headers.length; j++) {
-            const key = headers[j]
-            const cell = worksheet[String.fromCharCode(65 + j) + i]
-            row[key] = cell ? cell.v : null
+    toast.promise(
+      new Promise((resolve, reject) => {
+        const fileReader = new FileReader()
+        fileReader.onload = () => {
+          try {
+            const workbook = XLSX.read(fileReader.result, { type: "binary" })
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+            const headers = Object.keys(worksheet)
+              .filter(key => key[1] === "1")
+              .map(key => worksheet[key].v)
+
+            const data = []
+            const range = XLSX.utils.decode_range(worksheet["!ref"])
+            for (let i = range.s.r + 1; i <= range.e.r; i++) {
+              const row = {}
+              for (let j = range.s.c; j <= range.e.c; j++) {
+                const cellAddress = XLSX.utils.encode_cell({ r: i, c: j })
+                const cellValue = worksheet[cellAddress]
+                  ? worksheet[cellAddress].v
+                  : null
+                const columnName = headers[j - range.s.c]
+                row[columnName] = cellValue
+              }
+              data.push(row)
+            }
+
+            const requiredFields = [
+              "summary",
+              "description",
+              "project_key",
+              "issuetype_name",
+              "assignee_id",
+              "priority",
+            ]
+            const missingFields = requiredFields.filter(
+              field => !headers.includes(field)
+            )
+            if (missingFields.length === 0) {
+              setError(null)
+              setSelectedFileName(selectedFile.name)
+              setFile(data)
+              setIsValid(true)
+              resolve("Success: File uploaded successfully")
+            } else {
+              reject(`Error: Fields missing: ${missingFields.join(", ")}`)
+              setIsValid(false)
+            }
+          } catch (error) {
+            reject("Error: Invalid file format")
+            setIsValid(false)
           }
-          data.push(row)
         }
-
-        const requiredFields = [
-          "summary",
-          "description",
-          "project_key",
-          "issuetype_name",
-          "assignee_id",
-          "priority",
-        ]
-        const missingFields = requiredFields.filter(
-          field => !headers.includes(field)
-        )
-        if (missingFields.length === 0) {
-          setError(null)
-          setFile(data)
-          setIsValid(true) // update state variable
-          toast.success("Success: File uploaded successfully")
-        } else {
-          toast.error(`Error: Fields missing: ${missingFields.join(", ")}`)
-          setIsValid(false) // update state variable
-        }
-      } catch (error) {
-        toast.error("Error: Invalid file format")
-        setIsValid(false) // update state variable
-      }
-    }
-    fileReader.readAsBinaryString(selectedFile)
-  }
-
-  console.log(error)
-
-  const handleSubmit = async event => {
-    event.preventDefault()
-    if (!file) {
-      toast.error("Error: Please upload a file")
-      return
-    }
-    const auth = {
-      username: "your-jira-email@example.com",
-      password: "your-jira-api-token",
-    }
-    const headers = {
-      "Content-Type": "application/json",
-    }
-    const createIssueUrl = `${JIRA_API_BASE_URL}/issue`
-    console.log(createIssueUrl)
-    const data = XLSX.utils.sheet_to_json(
-      XLSX.read(file, { type: "binary" }).Sheets[
-        XLSX.read(file, { type: "binary" }).SheetNames[0]
-      ],
+        fileReader.readAsBinaryString(selectedFile)
+      }),
       {
-        header: [
-          "summary",
-          "description",
-          "project_key",
-          "issuetype_name",
-          "assignee_id",
-          "priority",
-        ],
-      }
-    )
-    for (const item of data) {
-      const requestBody = {
-        fields: {
-          summary: item.summary,
-          description: item.description,
-          project: {
-            key: item.project_key,
-          },
-          issuetype: {
-            name: item.issuetype_name,
-          },
-          assignee: {
-            id: item.assignee_id,
-          },
-          priority: {
-            name: item.priority,
-          },
+        loading: "Loading file...",
+        success: message => {
+          return message
+        },
+        error: message => {
+          return message
         },
       }
-      try {
-        const response = await axios.post(
-          createIssueUrl,
-          JSON.stringify(requestBody),
-          {
-            auth,
-            headers,
-          }
-        )
-        console.log("Issue created:", response.data.key)
-      } catch (error) {
-        console.log("Error creating issue:", error.message)
+    )
+  }
+
+  const createIssue = async (data, email, token) => {
+    console.log(`Creating issue for ${data.summary}`)
+
+    const url = "https://hackerearth.atlassian.net/rest/api/3/issue"
+    const headers = {
+      Authorization: `Basic ${Buffer.from(`${email}:${token}`).toString(
+        "base64"
+      )}`,
+      "Content-Type": "application/json",
+    }
+    const requestBody = {
+      fields: {
+        project: { key: data.project_key },
+        summary: data.summary,
+        description: data.description,
+        issuetype: { name: data.issuetype_name },
+        assignee: { id: data.assignee_id },
+        priority: { name: data.priority },
+      },
+    }
+    try {
+      const response = await axios.post(url, requestBody, {
+        headers: headers,
+      })
+      return { success: true, data: response.data }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, message: error.message }
+      } else if (error.request) {
+        return { success: false, message: "No response received from server." }
+      } else {
+        return { success: false, message: error.message }
       }
+    }
+  }
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true) // set isSubmitting to true
+
+    try {
+      // Call the createIssue function for each row of data and wait for all promises to resolve
+      const promises = file.map(rowData => createIssue(rowData, email, token))
+      const results = await Promise.all(promises)
+
+      // Check for any errors and handle them appropriately
+      const errors = results.filter(result => !result.success)
+      if (errors.length > 0) {
+        console.error(errors)
+        return
+      }
+
+      // Log the success messages for each issue
+      const successMessages = results.map(result => result.data.key)
+      toast.success(`Issues created: ${successMessages.join(", ")}`)
+
+      setFile(null)
+      setIsValid(false)
+    } catch (error) {
+      toast.error(error)
+    } finally {
+      setFile(null)
+      setIsSubmitting(false)
+      setIsValid(false)
     }
   }
 
@@ -254,10 +281,12 @@ export default function Features() {
                   borderColor="black"
                   opacity="0.4"
                 ></Div>
-                {error && <p>{error}</p>}
-                <input type="file" onChange={handleFileUpload} />
-                {file && <p>Success</p>}
-                {fileName && <p>File Name: {fileName}</p>}
+                <input
+                  type="file"
+                  onChange={handleFileUpload}
+                  value=""
+                  style={{ display: "none" }}
+                />
                 <Button
                   pos="absolute"
                   right="0"
@@ -274,20 +303,22 @@ export default function Features() {
                 >
                   Upload File
                 </Button>
-                <Button
-                  pos="absolute"
-                  right="-5rem"
-                  bottom="1rem"
-                  w="10rem"
-                  rounded="lg"
-                  hoverBg="info600"
-                  shadow="3"
-                  hoverShadow="4"
-                  onClick={handleSubmit}
-                  // disabled={!isValid} // disable button if file is invalid
-                >
-                  Submit
-                </Button>
+                {file ? (
+                  <Button
+                    pos="absolute"
+                    right="-5rem"
+                    bottom="1rem"
+                    w="10rem"
+                    rounded="lg"
+                    hoverBg="info600"
+                    shadow="3"
+                    hoverShadow="4"
+                    onClick={handleSubmit}
+                    disabled={!isValid || isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
+                ) : null}
                 <Button
                   pos="absolute"
                   left="2rem"
@@ -337,7 +368,6 @@ export default function Features() {
                 >
                   <Image src={react} w="4rem" />
                 </Div>
-
                 {/* <Image
                     src={features}
                     pos="absolute"

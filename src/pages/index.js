@@ -14,8 +14,8 @@ import Footer from "../components/homepage/Footer"
 const IndexPage = () => (
   <Layout>
     <SEO
-      title="Design System for React JS"
-      description="Atomize React is a UI framework that helps developers collaborate with designers and build consistent user interfaces effortlessly."
+      title="JiraWizard - Jira Automation Made Easy"
+      description="JiraWizard is a Jira automation tool that allows you to automate your Jira workflows with ease."
     />
     <Header />
     <HeroSection />

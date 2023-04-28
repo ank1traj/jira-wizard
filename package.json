@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "jira-wizard",
   "private": true,
-  "description": "A simple starter to get up and dicon eveloping quickly with Gatsby",
+  "description": "Jira Wizard is a tool to help you create Jira issues faster.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Ankit Raj",
   "dependencies": {
     "atomize": "^1.0.10",
     "axios": "^1.4.0",
@@ -19,6 +19,8 @@
     "gatsby-plugin-styletron": "^4.1.2",
     "gatsby-source-filesystem": "^2.1.0",
     "gatsby-transformer-sharp": "^2.2.0",
+    "http-proxy-middleware": "^2.0.6",
+    "node-fetch": "^3.3.1",
     "prism-react-renderer": "^0.1.6",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

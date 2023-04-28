@@ -35,9 +35,9 @@ const UserEdit = ({ ...rest }) => (
         rounded="circle"
       />
       <Div>
-        <Text textWeight="500">John Doe</Text>
+        <Text textWeight="500">Kundan Kumar</Text>
         <Text textSize="caption" textColor="light">
-          UI/UX Designer
+          SDET
         </Text>
       </Div>
     </Div>

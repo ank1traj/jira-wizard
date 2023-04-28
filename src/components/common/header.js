@@ -75,8 +75,9 @@ class Header extends React.Component {
                 bg="black"
                 rounded="lg"
                 style={{
-                  transform: `translateY(${showMobileHeaderMenu ? "1" : "-2"
-                    }px)rotate(${showMobileHeaderMenu ? "135" : "0"}deg)`,
+                  transform: `translateY(${
+                    showMobileHeaderMenu ? "1" : "-2"
+                  }px)rotate(${showMobileHeaderMenu ? "135" : "0"}deg)`,
                 }}
                 transition
               ></Div>
@@ -86,8 +87,9 @@ class Header extends React.Component {
                 bg="black"
                 rounded="lg"
                 style={{
-                  transform: `translateY(${showMobileHeaderMenu ? "-1" : "2"
-                    }px)rotate(${showMobileHeaderMenu ? "45" : "0"}deg)`,
+                  transform: `translateY(${
+                    showMobileHeaderMenu ? "-1" : "2"
+                  }px)rotate(${showMobileHeaderMenu ? "45" : "0"}deg)`,
                 }}
                 transition
               ></Div>
@@ -133,7 +135,7 @@ class Header extends React.Component {
               </Anchor>
 
               <Anchor
-                href="https://github.com/proksh/atomize"
+                href="#"
                 target="_blank"
                 m={{ r: "2rem", b: { xs: "1rem", md: "0" } }}
                 textWeight="500"
@@ -144,19 +146,7 @@ class Header extends React.Component {
                 Github
               </Anchor>
 
-              <Anchor
-                href="http://atomizedesign.com"
-                target="_blank"
-                m={{ r: "2.5rem", b: { xs: "4rem", md: "0" } }}
-                textWeight="500"
-                textColor="medium"
-                hoverTextColor="black"
-                transition
-              >
-                For Designers
-              </Anchor>
-
-              <Link to="/docs/react/intro">
+              <Link to="#">
                 <Button
                   bg="gray300"
                   hoverBg="gray400"

@@ -1,6 +1,6 @@
 import React from "react"
 
-import girl2 from "../../../images/avatar/girl2.png"
+import boy from "../../../images/avatar/boy.png"
 import cardImg from "../../../images/hero-illustration/card-img.png"
 
 import { Button, Text, Div, Icon } from "atomize"
@@ -38,13 +38,13 @@ class CardComponent extends React.Component {
             <Div
               h="1.5rem"
               w="1.5rem"
-              bgImg={girl2}
+              bgImg={boy}
               bgSize="cover"
               bgPos="center"
               m={{ r: "1rem" }}
               rounded="circle"
             ></Div>
-            <Text textWeight="500">Meagan Fisher</Text>
+            <Text textWeight="500"> Ajay George</Text>
           </Div>
           <Icon
             transition
