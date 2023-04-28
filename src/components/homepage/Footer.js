@@ -35,11 +35,6 @@ const footerLinks = {
       name: "Development",
       link: "#",
     },
-    // {
-    //   name: "Github",
-    //   anchor: true,
-    //   link: "https://github.com/Proksh/atomize",
-    // },
   ],
   resources: [
     {
