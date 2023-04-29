@@ -53,9 +53,11 @@ export default function Features() {
   const [file, setFile] = useState(null)
   const [isValid, setIsValid] = useState(false) // added state variable
   const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
+  const [data, setData] = useState([])
   const [selectedFileName, setSelectedFileName] = useState("hello")
   const email = "navaneethakrishnan@hackerearth.com"
   const token = "ZvCGnS4bjsMlhOgZ7xCM1D7D"
+  const baseUrl = "https://hackerearth.atlassian.net/rest/api/3"
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -89,20 +91,8 @@ export default function Features() {
               .filter(key => key[1] === "1")
               .map(key => worksheet[key].v)
 
-            const data = []
-            const range = XLSX.utils.decode_range(worksheet["!ref"])
-            for (let i = range.s.r + 1; i <= range.e.r; i++) {
-              const row = {}
-              for (let j = range.s.c; j <= range.e.c; j++) {
-                const cellAddress = XLSX.utils.encode_cell({ r: i, c: j })
-                const cellValue = worksheet[cellAddress]
-                  ? worksheet[cellAddress].v
-                  : null
-                const columnName = headers[j - range.s.c]
-                row[columnName] = cellValue
-              }
-              data.push(row)
-            }
+            const data = XLSX.utils.sheet_to_json(worksheet)
+            setData(data)
 
             const requiredFields = [
               "summary",
@@ -143,70 +133,54 @@ export default function Features() {
     )
   }
 
-  const createIssue = async (data, email, token) => {
-    console.log(`Creating issue for ${data.summary}`)
-
-    const url = "https://hackerearth.atlassian.net/rest/api/3/issue"
-    const headers = {
-      Authorization: `Basic ${Buffer.from(`${email}:${token}`).toString(
-        "base64"
-      )}`,
-      "Content-Type": "application/json",
-    }
-    const requestBody = {
-      fields: {
-        project: { key: data.project_key },
-        summary: data.summary,
-        description: data.description,
-        issuetype: { name: data.issuetype_name },
-        assignee: { id: data.assignee_id },
-        priority: { name: data.priority },
-      },
-    }
+  const createIssue = async issueData => {
     try {
-      const response = await axios.post(url, requestBody, {
-        headers: headers,
-      })
-      return { success: true, data: response.data }
-    } catch (error) {
-      if (error.response) {
-        return { success: false, message: error.message }
-      } else if (error.request) {
-        return { success: false, message: "No response received from server." }
-      } else {
-        return { success: false, message: error.message }
+      const payload = {
+        fields: {
+          project: { key: issueData.project_key },
+          summary: issueData.summary,
+          description: {
+            type: "doc",
+            version: 1,
+            content: [
+              {
+                type: "paragraph",
+                content: [
+                  {
+                    text: issueData.description,
+                    type: "text",
+                  },
+                ],
+              },
+            ],
+          },
+          issuetype: { name: issueData.issuetype_name },
+          assignee: { id: issueData.assignee_id },
+          priority: { name: issueData.priority },
+        },
       }
+
+      console.log(email, token, payload)
+      const response = await axios.post(`${baseUrl}/issue`, payload, {
+        auth: { username: email, password: token },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Atlassian-Token": "no-check",
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-Token": token,
+        },
+      })
+      console.log(`Issue created: ${response.data.key}`)
+    } catch (error) {
+      console.error(`Failed to create issue: ${error.message}`)
     }
   }
-
-  const handleSubmit = async () => {
-    setIsSubmitting(true) // set isSubmitting to true
-
-    try {
-      // Call the createIssue function for each row of data and wait for all promises to resolve
-      const promises = file.map(rowData => createIssue(rowData, email, token))
-      const results = await Promise.all(promises)
-
-      // Check for any errors and handle them appropriately
-      const errors = results.filter(result => !result.success)
-      if (errors.length > 0) {
-        console.error(errors)
-        return
-      }
-
-      // Log the success messages for each issue
-      const successMessages = results.map(result => result.data.key)
-      toast.success(`Issues created: ${successMessages.join(", ")}`)
-
-      setFile(null)
-      setIsValid(false)
-    } catch (error) {
-      toast.error(error)
-    } finally {
-      setFile(null)
-      setIsSubmitting(false)
-      setIsValid(false)
-    }
+  const handleSubmit = async event => {
+    event.preventDefault()
+    setIsSubmitting(true)
+    data.forEach(issueData => createIssue(issueData))
+    console.log(data)
+    setIsSubmitting(false)
   }
 
   return (
