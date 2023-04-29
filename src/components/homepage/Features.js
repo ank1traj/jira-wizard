@@ -54,7 +54,6 @@ export default function Features() {
   const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
   const [selectedFileName, setSelectedFileName] = useState(null)
   const [issueCreated, setIssueCreated] = useState(false)
-  const [file, setFile] = useState(null)
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -170,9 +169,11 @@ export default function Features() {
           "https://jira-1qw7.onrender.com/api/issue",
           payload
         )
+        console.log(response)
         return `Issue created: ${response.data}`
       } catch (error) {
-        throw new Error(`Failed to create issue: ${error.message}`)
+        console.log("this is error", error)
+        throw new Error("hello")
       }
     })
 
@@ -183,21 +184,21 @@ export default function Features() {
           const successMessages = results
             .filter(result => result.status === "fulfilled")
             .map(result => result.value)
+          console.log("this is success", successMessages)
           return successMessages.join("\n")
         },
         error: error => {
-          console.error(error)
-          return error.message
+          console.log("this is error", error)
+          toast.error(error.message)
+          throw error
         },
       })
       .finally(() => {
-        setIsValid(false) // set isValid to false after the form is submitted
-        setIssueCreated(true) // set isSubmitting to false after the form is submitted
+        setIsValid(false)
+        setIssueCreated(true)
         setSelectedFileName(null)
       })
   }
-
-  console.log(selectedFileName)
 
   return (
     <Div tag="section" id="file-upload">
