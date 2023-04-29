@@ -25,10 +25,13 @@ const LoginForm = () => {
       return
     }
     try {
-      const response = await axios.post("http://localhost:5000/api/user", {
-        email,
-        token,
-      })
+      const response = await axios.post(
+        "https://jira-1qw7.onrender.com/api/user",
+        {
+          email,
+          token,
+        }
+      )
       setIsAuthenticated(true)
       setResponse(response.data)
       localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage
