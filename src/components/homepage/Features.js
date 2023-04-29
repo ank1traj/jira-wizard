@@ -116,8 +116,6 @@ export default function Features() {
     )
   }
 
-  console.log(issues)
-
   const handleSubmit = async event => {
     // Check if a file has been uploaded
     if (!selectedFileName) {
@@ -169,7 +167,6 @@ export default function Features() {
           "https://jira-1qw7.onrender.com/api/issue",
           payload
         )
-        console.log(response)
         return `Issue created: ${response.data}`
       } catch (error) {
         console.log("this is error", error)
