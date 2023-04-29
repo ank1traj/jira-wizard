@@ -35,11 +35,8 @@ const LoginForm = () => {
       setIsAuthenticated(true)
       setResponse(response.data)
       localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage
-      // add code here to handle successful login
     } catch (error) {
       setIsAuthenticated(false)
-      console.error(error)
-      // add code here to handle login failure
     }
   }
 
@@ -49,7 +46,10 @@ const LoginForm = () => {
     setIsAuthenticated(false)
   }
 
-  localStorage.setItem("authenticated", JSON.stringify(isAuthenticated))
+  if (typeof localStorage !== "undefined") {
+    // access localStorage here
+    localStorage.setItem("authenticated", JSON.stringify(isAuthenticated))
+  }
 
   useEffect(() => {
     const response = JSON.parse(localStorage.getItem("response"))
@@ -59,8 +59,6 @@ const LoginForm = () => {
       setResponse(response)
     }
   }, [isAuthenticated])
-
-  console.log(image)
 
   return (
     <Div
