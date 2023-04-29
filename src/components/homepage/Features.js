@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import axios from "axios"
 import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
 
-import * as XLSX from "xlsx"
 import toast, { Toaster } from "react-hot-toast"
 
 import react from "../../images/react.svg"
@@ -50,14 +49,12 @@ const featuresList = [
 ]
 
 export default function Features() {
-  const [file, setFile] = useState(null)
+  const [issues, setIssues] = useState([])
   const [isValid, setIsValid] = useState(false) // added state variable
   const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
-  const [data, setData] = useState([])
-  const [selectedFileName, setSelectedFileName] = useState("hello")
-  const email = "navaneethakrishnan@hackerearth.com"
-  const token = "ZvCGnS4bjsMlhOgZ7xCM1D7D"
-  const baseUrl = "https://hackerearth.atlassian.net/rest/api/3"
+  const [selectedFileName, setSelectedFileName] = useState(null)
+  const [issueCreated, setIssueCreated] = useState(false)
+  const [file, setFile] = useState(null)
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -80,61 +77,69 @@ export default function Features() {
       return
     }
 
+    const formData = new FormData()
+    formData.append("file", selectedFile)
+
     toast.promise(
-      new Promise((resolve, reject) => {
-        const fileReader = new FileReader()
-        fileReader.onload = () => {
-          try {
-            const workbook = XLSX.read(fileReader.result, { type: "binary" })
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-            const headers = Object.keys(worksheet)
-              .filter(key => key[1] === "1")
-              .map(key => worksheet[key].v)
-
-            const data = XLSX.utils.sheet_to_json(worksheet)
-            setData(data)
-
-            const requiredFields = [
-              "summary",
-              "description",
-              "project_key",
-              "issuetype_name",
-              "assignee_id",
-              "priority",
-            ]
-            const missingFields = requiredFields.filter(
-              field => !headers.includes(field)
-            )
-            if (missingFields.length === 0) {
-              setSelectedFileName(selectedFile.name)
-              setFile(data)
-              setIsValid(true)
-              resolve("Success: File uploaded successfully")
-            } else {
-              reject(`Error: Fields missing: ${missingFields.join(", ")}`)
-              setIsValid(false)
-            }
-          } catch (error) {
-            reject("Error: Invalid file format")
-            setIsValid(false)
+      fetch("https://jira-1qw7.onrender.com/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+        .then(response => {
+          if (response.status === 200) {
+            return response.text()
+          } else {
+            return response.json().then(error => {
+              throw new Error(error.message)
+            })
           }
-        }
-        fileReader.readAsBinaryString(selectedFile)
-      }),
+        })
+        .then(data => {
+          const issue = JSON.parse(data).data
+          setSelectedFileName(selectedFile.name)
+          setIsValid(true)
+          setIssues(issue)
+          return "File uploaded successfully!"
+        })
+        .catch(error => {
+          setIsValid(false)
+          throw new Error(`Error: ${error.message}`)
+        }),
       {
         loading: "Loading file...",
         success: message => {
           return message
         },
-        error: message => {
-          return message
+        error: error => {
+          return error.message
         },
       }
     )
   }
 
-  const createIssue = async issueData => {
-    try {
+  console.log(issues)
+
+  const handleSubmit = async event => {
+    // Check if a file has been uploaded
+    if (!selectedFileName) {
+      toast.error("Please upload a file.")
+      return
+    }
+
+    setIsSubmitting(true) // set isSubmitting to true when the form is submitted
+    const promises = issues.map(async issue => {
+      const issueData = {
+        summary: issue.summary,
+        description: issue.description,
+        project_key: issue.project_key,
+        issuetype_name: issue.issuetype_name,
+        assignee_id: issue.assignee_id,
+        priority: issue.priority,
+        components: issue.components
+          ? issue.components.split(", ").map(component => ({ name: component }))
+          : [],
+      }
+
       const payload = {
         fields: {
           project: { key: issueData.project_key },
@@ -157,29 +162,42 @@ export default function Features() {
           issuetype: { name: issueData.issuetype_name },
           assignee: { id: issueData.assignee_id },
           priority: { name: issueData.priority },
+          components: issueData.components,
         },
       }
+      try {
+        const response = await axios.post(
+          "https://jira-1qw7.onrender.com/api/issue",
+          payload
+        )
+        return `Issue created: ${response.data}`
+      } catch (error) {
+        throw new Error(`Failed to create issue: ${error.message}`)
+      }
+    })
 
-      console.log(email, token, payload)
-      const response = await axios.post(`${baseUrl}/issue/bulk`, payload, {
-        auth: { username: email, password: token },
-        headers: {
-          "Content-Type": "application/json",
-          "X-Atlassian-Token": "no-check",
+    toast
+      .promise(Promise.allSettled(promises), {
+        loading: "Creating issues...",
+        success: results => {
+          const successMessages = results
+            .filter(result => result.status === "fulfilled")
+            .map(result => result.value)
+          return successMessages.join("\n")
+        },
+        error: error => {
+          console.error(error)
+          return error.message
         },
       })
-      toast.success(`Issue created: ${response.data.key}`)
-    } catch (error) {
-      toast.error(`Failed to create issue: ${error.message}`)
-    }
+      .finally(() => {
+        setIsValid(false) // set isValid to false after the form is submitted
+        setIssueCreated(true) // set isSubmitting to false after the form is submitted
+        setSelectedFileName(null)
+      })
   }
-  const handleSubmit = async event => {
-    event.preventDefault()
-    setIsSubmitting(true)
-    data.forEach(issueData => createIssue(issueData))
-    console.log(data)
-    setIsSubmitting(false)
-  }
+
+  console.log(selectedFileName)
 
   return (
     <Div tag="section" id="file-upload">
@@ -262,22 +280,21 @@ export default function Features() {
                 >
                   Upload File
                 </Button>
-                {file ? (
-                  <Button
-                    pos="absolute"
-                    right="-5rem"
-                    bottom="1rem"
-                    w="10rem"
-                    rounded="lg"
-                    hoverBg="info600"
-                    shadow="3"
-                    hoverShadow="4"
-                    onClick={handleSubmit}
-                    disabled={!isValid || isSubmitting}
-                  >
-                    {isSubmitting ? "Submitting..." : "Submit"}
-                  </Button>
-                ) : null}
+                <Button
+                  pos="absolute"
+                  right="-5rem"
+                  bottom="1rem"
+                  w="10rem"
+                  rounded="lg"
+                  hoverBg="info600"
+                  shadow="3"
+                  hoverShadow="4"
+                  onClick={handleSubmit}
+                  onSubmit={handleSubmit}
+                >
+                  Submit
+                </Button>
+
                 <Button
                   pos="absolute"
                   left="2rem"
