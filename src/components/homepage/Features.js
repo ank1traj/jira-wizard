@@ -161,18 +161,16 @@ export default function Features() {
       }
 
       console.log(email, token, payload)
-      const response = await axios.post(`${baseUrl}/issue`, payload, {
+      const response = await axios.post(`${baseUrl}/issue/bulk`, payload, {
         auth: { username: email, password: token },
         headers: {
           "Content-Type": "application/json",
           "X-Atlassian-Token": "no-check",
-          "X-Requested-With": "XMLHttpRequest",
-          "X-CSRF-Token": token,
         },
       })
-      console.log(`Issue created: ${response.data.key}`)
+      toast.success(`Issue created: ${response.data.key}`)
     } catch (error) {
-      console.error(`Failed to create issue: ${error.message}`)
+      toast.error(`Failed to create issue: ${error.message}`)
     }
   }
   const handleSubmit = async event => {
