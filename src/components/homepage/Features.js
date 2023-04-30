@@ -167,34 +167,37 @@ export default function Features() {
           "https://jira-1qw7.onrender.com/api/issue",
           payload
         )
-        return `Issue created: ${response.data}`
+        const successMessage = `${response.data}`
+        return Promise.resolve({ status: "fulfilled", value: successMessage })
       } catch (error) {
-        console.log("this is error", error)
-        throw new Error("hello")
+        return Promise.reject({ status: "rejected", reason: error })
       }
     })
+    setSelectedFileName(null)
 
-    toast
-      .promise(Promise.allSettled(promises), {
+    toast.promise(
+      Promise.allSettled(promises).then(results => {
+        const rejectedPromises = results.filter(
+          result => result.status === "rejected"
+        )
+        if (rejectedPromises.length > 0) {
+          throw new Error(
+            `Issues were not created successfully. \n Please try again with a different file. Or Check if XLSX file is in correct format.`
+          )
+        }
+        const successMessages = results
+          .filter(result => result.status === "fulfilled")
+          .map(result => result.value)
+        const values = successMessages.map(message => message.value)
+        const joinedValues = values.join("\n")
+        return joinedValues
+      }),
+      {
         loading: "Creating issues...",
-        success: results => {
-          const successMessages = results
-            .filter(result => result.status === "fulfilled")
-            .map(result => result.value)
-          console.log("this is success", successMessages)
-          return successMessages.join("\n")
-        },
-        error: error => {
-          console.log("this is error", error)
-          toast.error(error.message)
-          throw error
-        },
-      })
-      .finally(() => {
-        setIsValid(false)
-        setIssueCreated(true)
-        setSelectedFileName(null)
-      })
+        success: joinedValues => `${joinedValues}`,
+        error: error => `Error: ${error.message}`,
+      }
+    )
   }
 
   return (
@@ -278,7 +281,7 @@ export default function Features() {
                 >
                   Upload File
                 </Button>
-                {isValid ? (
+                {isValid && selectedFileName ? (
                   <Button
                     pos="absolute"
                     right="-5rem"
