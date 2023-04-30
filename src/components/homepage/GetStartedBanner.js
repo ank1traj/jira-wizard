@@ -7,7 +7,7 @@ const list = [
     content: "Types of files supported",
   },
   {
-    title: "40+",
+    title: "100+",
     content: "Issues creation with a single click",
   },
   {

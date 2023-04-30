@@ -29,40 +29,6 @@ const Craft = () => {
         >
           Optimize your workflow with Jira Wizard's powerful bulk upload code
         </Text>
-        {/* <Row>
-          <Col size={{ xs: 12, md: 10 }} offset={{ md: 1 }}>
-            <Div p={{ y: "2rem" }}>
-              <Row>
-                {list.map((item, index) => (
-                  <Col
-                    key={index}
-                    size={{ xs: 12, sm: 6, lg: 3 }}
-                    d="flex"
-                    align="center"
-                    flexDir="column"
-                  >
-                    <Div
-                      d="flex"
-                      maxW="12rem"
-                      flexDir="column"
-                      align="center"
-                      m={{ b: "2rem" }}
-                    >
-                      <Image src={item.image} w="4.5rem" m={{ b: "1rem" }} />
-                      <Text
-                        textAlign="center"
-                        textSize="subheader"
-                        textColor="medium"
-                      >
-                        {item.content}
-                      </Text>
-                    </Div>
-                  </Col>
-                ))}
-              </Row>
-            </Div>
-          </Col>
-        </Row> */}
         <Div d="flex" pos="relative" justify="center">
           <Div
             w="100%"

@@ -7,7 +7,6 @@ import UserEdit from "./uicomponents/UserEdit"
 import Buttons from "./uicomponents/Buttons"
 import CardComponent from "./uicomponents/CardComponent"
 import LoginForm from "./uicomponents/LoginForm"
-// import Notification from './uicomponents/Notification'
 
 export default function HeroSection() {
   const scroll = () => {

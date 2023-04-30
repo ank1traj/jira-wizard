@@ -222,14 +222,21 @@ export default function Features() {
         const successMessages = results
           .filter(result => result.status === "fulfilled")
           .map(result => result.value)
+
         const values = successMessages.map(message => message.value)
-        const joinedValues = values.join("\n")
-        return joinedValues
+
+        values.forEach(message => {
+          toast.success(message)
+        })
+
+        return values
       }),
       {
         loading: "Creating issues...",
-        success: joinedValues => `${joinedValues}`,
-        error: error => `Error: ${error.message}`,
+        success: "Issues created successfully!",
+        error: "Error creating issues",
+        duration: 3000,
+        position: "top-center",
       }
     )
   }
@@ -392,17 +399,6 @@ export default function Features() {
             </Col>
             <Col size={{ xs: 12, md: 6, lg: 7 }} offset={{ xs: 0, md: 1 }}>
               <Div p={{ l: { lg: "1rem" } }}>
-                {/* <Tag
-                    bg="black"
-                    textColor="white"
-                    h="2rem"
-                    p={{ x: "1rem" }}
-                    rounded="circle"
-                    m={{ b: "2rem" }}
-                  >
-                    Key features
-                  </Tag> */}
-
                 <Text
                   tag="h2"
                   maxW="32rem"
