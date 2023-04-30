@@ -16,7 +16,7 @@ const LoginForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loginButtonClicked, setLoginButtonClicked] = useState(false)
 
-  const handleSubmit = async e => {
+  const handleLogin = async e => {
     e.preventDefault()
     if (!domain) {
       toast.error("Please enter your domain")
@@ -104,7 +104,7 @@ const LoginForm = () => {
     if (loginButtonClicked && authenticated) {
       scroll()
     }
-  })
+  }, [loginButtonClicked, isAuthenticated])
 
   return (
     <Div
@@ -264,7 +264,7 @@ const LoginForm = () => {
           bg="info200"
           hoverBg="info300"
           textColor="info700"
-          onClick={handleSubmit}
+          onClick={handleLogin}
         >
           Login
         </Button>

@@ -113,8 +113,8 @@ export default function HeroSection() {
                 height="500" // Set the height of the iframe to 500px
                 src="https://www.youtube.com/embed/EkDnSyit4mw"
                 title="Demo Video"
-                frameborder="0"
-                allowfullscreen
+                frameBorder="0"
+                allowFullScreen
               ></iframe>
             </Modal>
           </Div>
