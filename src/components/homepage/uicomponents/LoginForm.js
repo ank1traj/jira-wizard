@@ -14,6 +14,7 @@ const LoginForm = () => {
   )
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loginButtonClicked, setLoginButtonClicked] = useState(false)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -38,7 +39,7 @@ const LoginForm = () => {
         }),
         {
           loading: "Authenticating...",
-          success: "Authentication successful",
+          success: "Authentication successful. Now upload your file!",
           error: response => {
             if (response.response.status === 401) {
               return `Authentication failed: ${response.response.data.message}`
@@ -47,6 +48,7 @@ const LoginForm = () => {
           },
         }
       )
+      setLoginButtonClicked(true)
       setIsAuthenticated(true)
       setResponse(response.data)
       localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage\
@@ -91,6 +93,19 @@ const LoginForm = () => {
     }
   }, [isAuthenticated])
 
+  const scroll = () => {
+    const section = document.querySelector("#file-upload")
+    section.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+
+  useEffect(() => {
+    // If login button is clicked and authentication is true, scroll to the file upload section
+    const authenticated = JSON.parse(localStorage.getItem("authenticated"))
+    if (loginButtonClicked && authenticated) {
+      scroll()
+    }
+  })
+
   return (
     <Div
       d="flex"
@@ -108,6 +123,7 @@ const LoginForm = () => {
       bg="white"
       shadow="4"
       p="2rem"
+      id="login-form"
     >
       <Toaster />
       <Div flexGrow="1">

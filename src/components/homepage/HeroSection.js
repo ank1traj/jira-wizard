@@ -28,7 +28,7 @@ export default function HeroSection() {
   }, [])
 
   const scroll = () => {
-    const section = document.querySelector("#file-upload")
+    const section = document.querySelector("#login-form")
     section.scrollIntoView({ behavior: "smooth", block: "start" })
   }
   return (

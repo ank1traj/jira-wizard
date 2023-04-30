@@ -388,13 +388,6 @@ export default function Features() {
                 >
                   <Image src={react} w="4rem" />
                 </Div>
-                {/* <Image
-                    src={features}
-                    pos="absolute"
-                    top="0"
-                    left="0"
-                    w="100%"
-                  /> */}
               </Div>
             </Col>
             <Col size={{ xs: 12, md: 6, lg: 7 }} offset={{ xs: 0, md: 1 }}>
