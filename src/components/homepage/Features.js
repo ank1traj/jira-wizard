@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
 
@@ -52,6 +52,39 @@ export default function Features() {
   const [issues, setIssues] = useState([])
   const [isValid, setIsValid] = useState(false) // added state variable
   const [selectedFileName, setSelectedFileName] = useState(null)
+
+  const [domain, setDomain] = useState("")
+  const [email, setEmail] = useState("")
+  const [token, setToken] = useState("")
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("authenticated")
+  )
+
+  useEffect(() => {
+    // Get the value from localStorage
+    const storedIsAuthenticated = localStorage.getItem("authenticated")
+
+    // If the value exists in localStorage, use it to initialize the state
+    if (storedIsAuthenticated) {
+      setIsAuthenticated(JSON.parse(storedIsAuthenticated))
+    }
+  }, [])
+
+  // Update localStorage whenever the state changes
+  useEffect(() => {
+    localStorage.setItem("authenticated", JSON.stringify(isAuthenticated))
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if (localStorage.getItem("authenticated")) {
+      setDomain(localStorage.getItem("domain"))
+      setEmail(localStorage.getItem("email"))
+      setToken(localStorage.getItem("token"))
+    }
+  }, [])
+
+  console.log(isAuthenticated)
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -118,6 +151,11 @@ export default function Features() {
     // Check if a file has been uploaded
     if (!selectedFileName) {
       toast.error("Please upload a file.")
+      return
+    }
+
+    if (!isAuthenticated) {
+      toast.error("Please login to continue")
       return
     }
 

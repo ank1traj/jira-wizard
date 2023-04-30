@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { Text, Div, Icon, Button, Input } from "atomize"
 
 const LoginForm = () => {
+  const [domain, setDomain] = useState("")
   const [email, setEmail] = useState("")
   const [token, setToken] = useState("")
   const [response, setResponse] = useState({})
@@ -16,6 +17,10 @@ const LoginForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    if (!domain) {
+      toast.error("Please enter your domain")
+      return
+    }
     if (!email) {
       toast.error("Please enter your email")
       return
@@ -27,18 +32,27 @@ const LoginForm = () => {
     try {
       const response = await toast.promise(
         axios.post("https://jira-1qw7.onrender.com/api/user", {
+          domain,
           email,
           token,
         }),
         {
           loading: "Authenticating...",
           success: "Authentication successful",
-          error: "Authentication failed",
+          error: response => {
+            if (response.response.status === 401) {
+              return `Authentication failed: ${response.response.data.message}`
+            }
+            return "Something went wrong"
+          },
         }
       )
       setIsAuthenticated(true)
       setResponse(response.data)
-      localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage
+      localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage\
+      localStorage.setItem("domain", domain)
+      localStorage.setItem("email", email)
+      localStorage.setItem("token", token)
     } catch (error) {
       setIsAuthenticated(false)
     }
@@ -59,7 +73,7 @@ const LoginForm = () => {
         }
       )
     } catch (error) {
-      console.error(error)
+      toast.error(error)
     }
   }
 
@@ -105,7 +119,7 @@ const LoginForm = () => {
             textWeight="500"
             fontFamily="secondary"
           >
-            Get your Jira Account Details
+            Login to Jira
           </Text>
         ) : (
           <Text
@@ -125,7 +139,7 @@ const LoginForm = () => {
             m={{ b: "4rem" }}
             textAlign="center"
           >
-            Enter your email and token to get started.
+            Enter your domain, email and token to get started.
           </Text>
         ) : (
           <Text
@@ -137,6 +151,31 @@ const LoginForm = () => {
             AccountID : {response.accountId}
           </Text>
         )}
+        {!isAuthenticated ? (
+          <Input
+            type="email"
+            p={{ x: "1rem" }}
+            m={{ b: "1rem" }}
+            placeholder="cucoders"
+            rounded="circle"
+            borderColor="gray400"
+            focusBorderColor="info700"
+            style={{ transform: "translateY(-2rem)" }}
+            value={domain}
+            onChange={e => setDomain(e.target.value)}
+            suffix={
+              <Icon
+                pos="absolute"
+                name="Email"
+                color="light"
+                size="18px"
+                top="50%"
+                transform="translateY(-50%) translateY(-2rem)"
+                right="1rem"
+              />
+            }
+          />
+        ) : null}
         {!isAuthenticated ? (
           <Input
             type="email"
