@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 
-import { Button, Container, Text, Div, Icon, Anchor } from "atomize"
+import { Modal, Button, Container, Text, Div, Icon, Anchor } from "atomize"
 
 import FollowCard from "./uicomponents/FollowCard"
 import UserEdit from "./uicomponents/UserEdit"
@@ -9,6 +9,24 @@ import CardComponent from "./uicomponents/CardComponent"
 import LoginForm from "./uicomponents/LoginForm"
 
 export default function HeroSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.keyCode === 27) {
+        // Close the modal when the ESC key is pressed
+        setIsModalOpen(false)
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
+
   const scroll = () => {
     const section = document.querySelector("#file-upload")
     section.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -59,30 +77,46 @@ export default function HeroSection() {
                 Get Started Now
               </Button>
             </Anchor>
-            <Anchor href="#">
-              <Button
-                h="3rem"
-                w={{ xs: "100%", sm: "11rem" }}
-                bg="transparent"
-                hoverBg="gray200"
-                border="1px solid"
-                borderColor="gray400"
-                hoverBorderColor="gray600"
-                rounded="lg"
-                p={{ l: "0.5rem", r: "1rem" }}
-                textColor="medium"
-                prefix={
-                  <Icon
-                    name="Play"
-                    size="18px"
-                    m={{ r: "0.5rem" }}
-                    color="black400"
-                  />
-                }
-              >
-                Watch Video
-              </Button>
-            </Anchor>
+
+            <Button
+              h="3rem"
+              w={{ xs: "100%", sm: "11rem" }}
+              bg="transparent"
+              hoverBg="gray200"
+              border="1px solid"
+              borderColor="gray400"
+              hoverBorderColor="gray600"
+              rounded="lg"
+              p={{ l: "0.5rem", r: "1rem" }}
+              textColor="medium"
+              prefix={
+                <Icon
+                  name="Play"
+                  size="18px"
+                  m={{ r: "0.5rem" }}
+                  color="black400"
+                />
+              }
+              onClick={() => setIsModalOpen(true)}
+            >
+              Watch Video
+            </Button>
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              m={{ y: "5rem", x: { xs: "1rem", lg: "auto" } }}
+              maxW="60rem" // Set the maximum width of the Modal to 60rem
+              maxH="80vh" // Set the maximum height of the Modal to 80vh
+            >
+              <iframe
+                width="100%"
+                height="500" // Set the height of the iframe to 500px
+                src="https://www.youtube.com/embed/EkDnSyit4mw"
+                title="Demo Video"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </Modal>
           </Div>
         </Container>
       </Div>
