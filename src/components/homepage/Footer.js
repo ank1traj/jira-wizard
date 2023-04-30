@@ -58,13 +58,8 @@ const footerLinks = {
       name: "Blog",
       anchor: true,
       link:
-        "https://hashnode.com/post/getting-started-with-react-atomize-and-gatsby-cjyfgtj0m001obzs19cobmogi",
+        "#",
     },
-    // {
-    //   name: "Product Hunt",
-    //   anchor: true,
-    //   link: "/",
-    // },
     {
       name: "Need Help?",
       anchor: true,
