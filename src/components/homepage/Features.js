@@ -191,8 +191,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          // "https://jira-1qw7.onrender.com/api/issue",
-          "http://localhost:5000/api/issue",
+          "https://jira-1qw7.onrender.com/api/issue",
           payload
         )
         const successMessage = `${response.data}`
