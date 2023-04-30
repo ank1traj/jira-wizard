@@ -173,6 +173,7 @@ export default function Features() {
         return Promise.reject({ status: "rejected", reason: error })
       }
     })
+
     setSelectedFileName(null)
 
     toast.promise(
