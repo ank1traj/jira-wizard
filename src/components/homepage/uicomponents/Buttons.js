@@ -22,6 +22,7 @@ const Buttons = () => (
       { icon: "Download", color: "info700" },
     ].map((button, index) => (
       <Button
+        key={index}
         border="1px solid"
         borderColor="gray200"
         h="2.5rem"

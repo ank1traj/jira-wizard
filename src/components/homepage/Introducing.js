@@ -13,6 +13,7 @@ const list = [
     heading: "Bulk Issues Creation",
     subheading:
       "Easily create multiple Jira issues from an xlsx file with just a few clicks with intuitive interface.",
+    link: "#",
   },
 
   {
@@ -20,6 +21,7 @@ const list = [
     heading: "Custom Field Mapping",
     subheading:
       "Map fields from your xlsx file to Jira issue fields for seamless data transfer.",
+    link: "#",
   },
 
   {
@@ -27,6 +29,7 @@ const list = [
     heading: "Automated Issue Creation",
     subheading:
       "Configure Jira Wizard to automatically create issues from designated xlsx files.",
+    link: "#",
   },
 
   {
@@ -34,10 +37,11 @@ const list = [
     heading: "Error Handling",
     subheading:
       "Receive detailed error reports to quickly resolve any issues during the bulk issue creation process.",
+    link: "#",
   },
 ]
 
-class Intoducing extends React.Component {
+class Introducing extends React.Component {
   render() {
     return (
       <Div tag="section" id="features" p={{ t: "8rem" }}>
@@ -76,8 +80,8 @@ class Intoducing extends React.Component {
             borderColor="gray300"
           >
             <Row>
-              {list.map(item => (
-                <Col size={{ xs: 12, sm: 6, lg: 3 }}>
+              {list.map((item, index) => (
+                <Col key={item.id || index} size={{ xs: 12, sm: 6, lg: 3 }}>
                   <Div m={{ b: { xs: "1rem", lg: "0" } }}>
                     <Div
                       border="1px solid"
@@ -130,4 +134,4 @@ class Intoducing extends React.Component {
   }
 }
 
-export default Intoducing
+export default Introducing

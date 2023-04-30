@@ -102,6 +102,7 @@ const Footer = () => {
             {Object.keys(footerLinks).map((key, index) => {
               return (
                 <Col
+                  key={index}
                   size={{ xs: 6, md: 2 }}
                   offset={{ xs: 0, md: index === 0 && 1 }}
                 >
@@ -117,10 +118,11 @@ const Footer = () => {
                     >
                       {key}
                     </Text>
-                    {footerLinks[key].map((link, i) => {
+                    {footerLinks[key].map((link, index) => {
                       if (link.anchor) {
                         return (
                           <Anchor
+                            key={`anchor-${index}`}
                             m={{ b: "0.5rem" }}
                             textColor="medium"
                             hoverTextColor="info800"
@@ -134,7 +136,7 @@ const Footer = () => {
                         )
                       } else {
                         return (
-                          <Link to={link.link}>
+                          <Link key={index} to={link.link}>
                             <Text
                               m={{ b: "0.5rem" }}
                               textColor="medium"
@@ -165,7 +167,7 @@ const Footer = () => {
           </Text>
           <Div d="flex" align="center" justify="center">
             {mediaLinks.map((link, index) => (
-              <Anchor href={link.link} target="_blank">
+              <Anchor key={index} href={link.link} target="_blank">
                 <Icon
                   name={link.icon}
                   size="20px"

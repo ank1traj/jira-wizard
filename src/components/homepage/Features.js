@@ -51,9 +51,7 @@ const featuresList = [
 export default function Features() {
   const [issues, setIssues] = useState([])
   const [isValid, setIsValid] = useState(false) // added state variable
-  const [isSubmitting, setIsSubmitting] = useState(false) // new state variable
   const [selectedFileName, setSelectedFileName] = useState(null)
-  const [issueCreated, setIssueCreated] = useState(false)
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -123,7 +121,6 @@ export default function Features() {
       return
     }
 
-    setIsSubmitting(true) // set isSubmitting to true when the form is submitted
     const promises = issues.map(async issue => {
       const issueData = {
         summary: issue.summary,
@@ -385,7 +382,7 @@ export default function Features() {
                 <Div>
                   <Row>
                     {featuresList.map((feature, index) => (
-                      <Col size={{ xs: 6, lg: 4 }}>
+                      <Col key={index} size={{ xs: 6, lg: 4 }}>
                         <Div m={{ b: "3rem" }} maxW="11rem">
                           <Image
                             src={feature.icon}
