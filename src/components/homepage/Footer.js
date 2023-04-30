@@ -40,7 +40,7 @@ const footerLinks = {
     {
       name: "Github",
       anchor: true,
-      link: "#",
+      link: "https://github.com/ank1traj",
     },
   ],
   about: [
@@ -57,8 +57,7 @@ const footerLinks = {
     {
       name: "Blog",
       anchor: true,
-      link:
-        "#",
+      link: "#",
     },
     {
       name: "Need Help?",

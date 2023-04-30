@@ -60,7 +60,7 @@ export default function HeroSection() {
                 Get Started Now
               </Button>
             </Anchor>
-            <Anchor href="#" target="_blank">
+            <Anchor href="#">
               <Button
                 h="3rem"
                 w={{ xs: "100%", sm: "11rem" }}

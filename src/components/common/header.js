@@ -124,7 +124,7 @@ class Header extends React.Component {
               </Anchor>
 
               <Anchor
-                href="#"
+                href="https://github.com/ank1traj"
                 target="_blank"
                 m={{ r: "2rem", b: { xs: "1rem", md: "0" } }}
                 textWeight="500"
