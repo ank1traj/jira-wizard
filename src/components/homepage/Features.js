@@ -57,25 +57,6 @@ export default function Features() {
   const [email, setEmail] = useState("")
   const [token, setToken] = useState("")
 
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("authenticated")
-  )
-
-  useEffect(() => {
-    // Get the value from localStorage
-    const storedIsAuthenticated = localStorage.getItem("authenticated")
-
-    // If the value exists in localStorage, use it to initialize the state
-    if (storedIsAuthenticated) {
-      setIsAuthenticated(JSON.parse(storedIsAuthenticated))
-    }
-  }, [])
-
-  // Update localStorage whenever the state changes
-  useEffect(() => {
-    localStorage.setItem("authenticated", JSON.stringify(isAuthenticated))
-  }, [isAuthenticated])
-
   useEffect(() => {
     if (localStorage.getItem("authenticated")) {
       setDomain(localStorage.getItem("domain"))
@@ -83,8 +64,6 @@ export default function Features() {
       setToken(localStorage.getItem("token"))
     }
   }, [])
-
-  console.log(isAuthenticated)
 
   const handleFileUpload = event => {
     const selectedFile = event.target.files[0]
@@ -148,14 +127,14 @@ export default function Features() {
   }
 
   const handleSubmit = async event => {
+    // Check if user is authenticated
+    if (localStorage.getItem("authenticated") === "false") {
+      toast.error("Please log in to submit issues.")
+      return
+    }
     // Check if a file has been uploaded
     if (!selectedFileName) {
       toast.error("Please upload a file.")
-      return
-    }
-
-    if (!isAuthenticated) {
-      toast.error("Please login to continue")
       return
     }
 
@@ -168,13 +147,20 @@ export default function Features() {
         assignee_id: issue.assignee_id,
         priority: issue.priority,
         components: issue.components
-          ? issue.components.split(", ").map(component => ({ name: component }))
+          ? issue.components.split(", ").map(component => ({
+              name: component,
+            }))
           : [],
       }
 
       const payload = {
+        domain: domain,
+        email: email,
+        token: token,
         fields: {
-          project: { key: issueData.project_key },
+          project: {
+            key: issueData.project_key,
+          },
           summary: issueData.summary,
           description: {
             type: "doc",
@@ -191,21 +177,34 @@ export default function Features() {
               },
             ],
           },
-          issuetype: { name: issueData.issuetype_name },
-          assignee: { id: issueData.assignee_id },
-          priority: { name: issueData.priority },
+          issuetype: {
+            name: issueData.issuetype_name,
+          },
+          assignee: {
+            id: issueData.assignee_id,
+          },
+          priority: {
+            name: issueData.priority,
+          },
           components: issueData.components,
         },
       }
       try {
         const response = await axios.post(
-          "https://jira-1qw7.onrender.com/api/issue",
+          // "https://jira-1qw7.onrender.com/api/issue",
+          "http://localhost:5000/api/issue",
           payload
         )
         const successMessage = `${response.data}`
-        return Promise.resolve({ status: "fulfilled", value: successMessage })
+        return Promise.resolve({
+          status: "fulfilled",
+          value: successMessage,
+        })
       } catch (error) {
-        return Promise.reject({ status: "rejected", reason: error })
+        return Promise.reject({
+          status: "rejected",
+          reason: error,
+        })
       }
     })
 
