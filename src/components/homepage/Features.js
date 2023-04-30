@@ -234,8 +234,10 @@ export default function Features() {
       {
         loading: "Creating issues...",
         success: "Issues created successfully!",
-        error: "Error creating issues",
-        duration: 3000,
+        error: error => {
+          return error.message
+        },
+        duration: 7000,
         position: "top-center",
       }
     )
