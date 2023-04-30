@@ -25,11 +25,15 @@ const LoginForm = () => {
       return
     }
     try {
-      const response = await axios.post(
-        "https://jira-1qw7.onrender.com/api/user",
-        {
+      const response = await toast.promise(
+        axios.post("https://jira-1qw7.onrender.com/api/user", {
           email,
           token,
+        }),
+        {
+          loading: "Authenticating...",
+          success: "Authentication successful",
+          error: "Authentication failed",
         }
       )
       setIsAuthenticated(true)
@@ -41,9 +45,22 @@ const LoginForm = () => {
   }
 
   // Clear the response from local storage on logout
-  const handleLogout = () => {
-    localStorage.removeItem("response")
-    setIsAuthenticated(false)
+  const handleLogout = async () => {
+    try {
+      await toast.promise(
+        new Promise((resolve, reject) => {
+          localStorage.removeItem("response")
+          setIsAuthenticated(false)
+          resolve()
+        }),
+        {
+          success: "Bye bye! See you soon " + response.displayName,
+          error: "Logout failed",
+        }
+      )
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   if (typeof localStorage !== "undefined") {

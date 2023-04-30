@@ -278,21 +278,23 @@ export default function Features() {
                 >
                   Upload File
                 </Button>
-                <Button
-                  pos="absolute"
-                  right="-5rem"
-                  bottom="1rem"
-                  w="10rem"
-                  rounded="lg"
-                  hoverBg="info600"
-                  shadow="3"
-                  hoverShadow="4"
-                  onClick={handleSubmit}
-                  onSubmit={handleSubmit}
-                >
-                  Submit
-                </Button>
-
+                {isValid ? (
+                  <Button
+                    pos="absolute"
+                    right="-5rem"
+                    bottom="1rem"
+                    w="10rem"
+                    rounded="lg"
+                    hoverBg="info600"
+                    shadow="3"
+                    hoverShadow="4"
+                    onClick={handleSubmit}
+                    onSubmit={handleSubmit}
+                    disabled={!isValid}
+                  >
+                    Submit
+                  </Button>
+                ) : null}
                 <Button
                   pos="absolute"
                   left="2rem"

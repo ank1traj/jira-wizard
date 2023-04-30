@@ -13,6 +13,9 @@ module.exports = {
       },
     },
     {
+      resolve: "@sentry/gatsby",
+    },
+    {
       resolve: "gatsby-plugin-htaccess",
       options: {
         RewriteBase: true,
