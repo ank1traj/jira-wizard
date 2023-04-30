@@ -18,18 +18,31 @@ const LoginForm = () => {
 
   const handleLogin = async e => {
     e.preventDefault()
+    const errors = []
+
     if (!domain) {
-      toast.error("Please enter your domain")
-      return
+      errors.push("domain")
     }
     if (!email) {
-      toast.error("Please enter your email")
-      return
+      errors.push("email")
     }
     if (!token) {
-      toast.error("Please enter your token")
+      errors.push("token")
+    }
+
+    if (errors.length) {
+      toast.error(`Please enter your ${errors.join(", ")}`)
       return
     }
+
+    const emailRegex = /^([\w.%+-]+)(@)([\w-]+\.)+([\w]{2,})$/
+    const match = email.match(emailRegex)
+
+    if (!match) {
+      toast.error("Please enter a valid email address")
+      return
+    }
+
     try {
       const response = await toast.promise(
         axios.post("https://jira-1qw7.onrender.com/api/user", {
@@ -169,7 +182,7 @@ const LoginForm = () => {
         )}
         {!isAuthenticated ? (
           <Input
-            type="email"
+            type="text"
             p={{ x: "1rem" }}
             m={{ b: "1rem" }}
             placeholder="cucoders"
@@ -182,7 +195,7 @@ const LoginForm = () => {
             suffix={
               <Icon
                 pos="absolute"
-                name="Email"
+                name="User"
                 color="light"
                 size="18px"
                 top="50%"
@@ -245,7 +258,7 @@ const LoginForm = () => {
             suffix={
               <Icon
                 pos="absolute"
-                name="Eye"
+                name="Lock"
                 color="light"
                 size="18px"
                 top="50%"
