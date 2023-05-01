@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import { Modal, Button, Container, Text, Div, Icon, Anchor } from "atomize"
 
+import toast, { Toaster } from "react-hot-toast"
+
 import FollowCard from "./uicomponents/FollowCard"
 import UserEdit from "./uicomponents/UserEdit"
 import Buttons from "./uicomponents/Buttons"
@@ -28,11 +30,24 @@ export default function HeroSection() {
   }, [])
 
   const scroll = () => {
-    const section = document.querySelector("#login-form")
+    const isAuthenticated = localStorage.getItem("authenticated")
+    const section =
+      isAuthenticated === "false"
+        ? document.querySelector("#login-form")
+        : document.querySelector("#file-upload")
     section.scrollIntoView({ behavior: "smooth", block: "start" })
+
+    // show the toast message if the user is not authenticated
+    isAuthenticated === "false"
+      ? toast.error("Please log in to access the file upload section.")
+      : toast.success(
+          "You are already logged in. Redirecting to the file upload section..."
+        )
   }
+
   return (
     <>
+      <Toaster />
       <Div tag="section" p={{ t: { xs: "6rem", md: "10rem" } }}>
         <Container d="flex" flexDir="column" align="center">
           <Text

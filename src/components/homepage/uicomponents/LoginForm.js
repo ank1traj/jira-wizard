@@ -185,7 +185,7 @@ const LoginForm = () => {
             type="text"
             p={{ x: "1rem" }}
             m={{ b: "1rem" }}
-            placeholder="cucoders"
+            placeholder="domain"
             rounded="circle"
             borderColor="gray400"
             focusBorderColor="info700"
