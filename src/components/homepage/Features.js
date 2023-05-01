@@ -82,13 +82,16 @@ export default function Features() {
       return
     }
     if (selectedFile.name === selectedFileName) {
-      toast.error("Same file uploaded", {
-        iconTheme: {
-          primary: "#0074D9",
-          secondary: "#E6F9FF",
-        },
-        duration: 6000,
-      })
+      toast.error(
+        "Attention! A file with the same data has already been uploaded. \nCreating a new issue with the same data may result in duplicates.",
+        {
+          iconTheme: {
+            primary: "#0074D9",
+            secondary: "#E6F9FF",
+          },
+          duration: 6000,
+        }
+      )
 
       setIsValid(true)
       return
@@ -134,8 +137,6 @@ export default function Features() {
       }
     )
   }
-
-  console.log("issues", issues)
 
   const handleSubmit = async event => {
     // Check if user is authenticated
