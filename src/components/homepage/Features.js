@@ -91,7 +91,7 @@ export default function Features() {
     formData.append("file", selectedFile)
 
     toast.promise(
-      fetch("https://jira-1qw7.onrender.com/api/upload", {
+      fetch("https://jira-backend.vercel.app/api/upload", {
         method: "POST",
         body: formData,
       })
@@ -194,7 +194,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "https://jira-1qw7.onrender.com/api/issue",
+          "https://jira-backend.vercel.app/api/issue",
           payload
         )
         const successMessage = `${response.data}`
