@@ -12,7 +12,7 @@ const list = [
     icon: intro1,
     heading: "Bulk Issues Creation",
     subheading:
-      "Easily create multiple Jira issues from an xlsx file with just a few clicks with intuitive interface.",
+      "Easily create multiple Jira issues from a xlsx/json file with just a few clicks with intuitive interface.",
     link: "#",
   },
 
@@ -20,7 +20,7 @@ const list = [
     icon: intro2,
     heading: "Custom Field Mapping",
     subheading:
-      "Map fields from your xlsx file to Jira issue fields for seamless data transfer.",
+      "Map fields from xlsx/json file to Jira issue fields for seamless data transfer.",
     link: "#",
   },
 
@@ -28,7 +28,7 @@ const list = [
     icon: intro3,
     heading: "Automated Issue Creation",
     subheading:
-      "Configure Jira Wizard to automatically create issues from designated xlsx files.",
+      "Configure Jira Wizard to automatically create issues from xlsx/json files.",
     link: "#",
   },
 

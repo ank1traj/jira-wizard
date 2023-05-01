@@ -21,8 +21,8 @@ const featuresList = [
   },
   {
     icon: icon2,
-    heading: "XLSX",
-    subheading: "Upload your XLSX files and get started.",
+    heading: "XLSX/JSON",
+    subheading: "Upload your xlsx/json files and get started.",
   },
   {
     icon: icon4,
@@ -39,7 +39,7 @@ const featuresList = [
   {
     icon: icon3,
     heading: "Customisable",
-    subheading: "Customise your XLSX file as per your needs.",
+    subheading: "Customise your xlsx/json file as per your needs.",
   },
   {
     icon: icon1,
@@ -74,7 +74,8 @@ export default function Features() {
     }
     if (
       selectedFile.type !==
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+      selectedFile.type !== "application/json"
     ) {
       toast.error("Error: Invalid file format")
       setIsValid(false)
@@ -125,6 +126,8 @@ export default function Features() {
       }
     )
   }
+
+  console.log("issues", issues)
 
   const handleSubmit = async event => {
     // Check if user is authenticated
@@ -216,7 +219,7 @@ export default function Features() {
         )
         if (rejectedPromises.length > 0) {
           throw new Error(
-            `Issues were not created successfully. \n Please try again with a different file. Or Check if XLSX file have correct data.`
+            `Issues were not created successfully. \n Please try again with a different file. Or Check if file have correct data.`
           )
         }
         const successMessages = results

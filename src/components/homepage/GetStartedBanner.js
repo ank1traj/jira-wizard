@@ -3,7 +3,7 @@ import { Div, Text, Container, Anchor, Button, Icon, Row, Col } from "atomize"
 
 const list = [
   {
-    title: "1",
+    title: "2",
     content: "Types of files supported",
   },
   {

@@ -211,5 +211,4 @@ for row in sheet.iter_rows(min_row=2, values_only=True):
     response = requests.post(url, headers={"Content-Type": "application/json"}, auth=auth, data=json.dumps(payload))
     if response.status_code != 201: print(f"Failed to create issue. Status code: {response.status_code}, response: {response.content}")
     else: print(f"Issue created successfully: {response.json()['key']}")
-
 `

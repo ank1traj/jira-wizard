@@ -78,7 +78,7 @@ const DesignDevelopment = () => {
                     p={{ r: "1rem" }}
                     m={{ b: "1.5rem" }}
                   >
-                    Create sub-tasks for each XLSX file issue.
+                    Create sub-tasks for each issue created.
                   </Text>
                 </Div>
               </Col>
