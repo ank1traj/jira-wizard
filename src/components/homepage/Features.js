@@ -77,12 +77,19 @@ export default function Features() {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
       selectedFile.type !== "application/json"
     ) {
-      toast.error("Error: Invalid file format")
+      toast.error("Error: Invalid file format", { duration: 6000 })
       setIsValid(false)
       return
     }
     if (selectedFile.name === selectedFileName) {
-      toast.error("Error: Same file uploaded")
+      toast.error("Same file uploaded", {
+        iconTheme: {
+          primary: "#0074D9",
+          secondary: "#E6F9FF",
+        },
+        duration: 6000,
+      })
+
       setIsValid(true)
       return
     }
@@ -123,6 +130,7 @@ export default function Features() {
         error: error => {
           return error.message
         },
+        duration: 6000,
       }
     )
   }
@@ -241,7 +249,6 @@ export default function Features() {
           return error.message
         },
         duration: 7000,
-        position: "top-center",
       }
     )
   }
