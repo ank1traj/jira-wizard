@@ -216,7 +216,7 @@ export default function Features() {
         )
         if (rejectedPromises.length > 0) {
           throw new Error(
-            `Issues were not created successfully. \n Please try again with a different file. Or Check if XLSX file is in correct format.`
+            `Issues were not created successfully. \n Please try again with a different file. Or Check if XLSX file have correct data.`
           )
         }
         const successMessages = results
