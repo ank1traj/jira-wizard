@@ -45,7 +45,7 @@ const LoginForm = () => {
 
     try {
       const response = await toast.promise(
-        axios.post("https://jira-1qw7.onrender.com/api/user", {
+        axios.post("https://jira-backend.vercel.app/api/user", {
           domain,
           email,
           token,
