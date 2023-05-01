@@ -215,6 +215,7 @@ export default function Features() {
         return Promise.reject({
           status: "rejected",
           reason: error,
+          reasonMessage: error.response.data.message,
         })
       }
     })
@@ -228,7 +229,7 @@ export default function Features() {
         )
         if (rejectedPromises.length > 0) {
           throw new Error(
-            `Issues were not created successfully. \n Please try again with a different file. Or Check if file have correct data.`
+            `Issues were not created successfully. \n Error: ${rejectedPromises[0].reason.reasonMessage} \nPlease check your file and try again.`
           )
         }
         const successMessages = results
