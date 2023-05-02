@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import CryptoJS from "crypto-js"
 import axios from "axios"
 import toast, { Toaster } from "react-hot-toast"
 
@@ -44,11 +45,14 @@ const LoginForm = () => {
     }
 
     try {
+      const plaintext = token
+      const secretKey = "mysecretkey"
+      const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const response = await toast.promise(
-        axios.post("https://jira-backend.vercel.app/api/user", {
+        axios.post("http://localhost:4000/api/user", {
           domain,
           email,
-          token,
+          jiraToken,
         }),
         {
           loading: "Authenticating...",
@@ -61,13 +65,14 @@ const LoginForm = () => {
           },
         }
       )
+
       setLoginButtonClicked(true)
       setIsAuthenticated(true)
       setResponse(response.data)
       localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage\
       localStorage.setItem("domain", domain)
       localStorage.setItem("email", email)
-      localStorage.setItem("token", token)
+      localStorage.setItem("jiraToken", token)
     } catch (error) {
       setIsAuthenticated(false)
     }

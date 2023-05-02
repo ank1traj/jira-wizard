@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import CryptoJS from "crypto-js"
+
 import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
 
 import toast, { Toaster } from "react-hot-toast"
@@ -61,7 +63,7 @@ export default function Features() {
     if (localStorage.getItem("authenticated")) {
       setDomain(localStorage.getItem("domain"))
       setEmail(localStorage.getItem("email"))
-      setToken(localStorage.getItem("token"))
+      setToken(localStorage.getItem("jiraToken"))
     }
   }, [])
 
@@ -164,11 +166,14 @@ export default function Features() {
             }))
           : [],
       }
+      const plaintext = token
+      const secretKey = "mysecretkey"
+      const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
 
       const payload = {
         domain: domain,
         email: email,
-        token: token,
+        jiraToken: jiraToken,
         fields: {
           project: {
             key: issueData.project_key,
@@ -203,7 +208,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "https://jira-backend.vercel.app/api/issue",
+          "http://localhost:4000/api/issue",
           payload
         )
         const successMessage = `${response.data}`
