@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react"
 import CryptoJS from "crypto-js"
 import axios from "axios"
+import Cookies from "js-cookie"
 import toast, { Toaster } from "react-hot-toast"
 
 import { Text, Div, Icon, Button, Input } from "atomize"
 
 const LoginForm = () => {
-  const [domain, setDomain] = useState("")
-  const [email, setEmail] = useState("")
-  const [token, setToken] = useState("")
+  const [domain, setDomain] = useState(Cookies.get("domain") || "")
+  const [email, setEmail] = useState(Cookies.get("email") || "")
+  const [token, setToken] = useState(Cookies.get("jiraToken") || "")
   const [response, setResponse] = useState({})
   const [image, setImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/5/5f/Gravatar-default-logo.jpg"
@@ -46,10 +47,11 @@ const LoginForm = () => {
 
     try {
       const plaintext = token
-      const secretKey = "mysecretkey"
+      const secretKey =
+        "6eb495a40e5f50b839fcfaa5e3e0d37b6bd17fbd887c4a1ac28f9d0eb25bde01"
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const response = await toast.promise(
-        axios.post("https://jira-backend.vercel.app/api/user", {
+        axios.post("http://localhost:4000/api/user", {
           domain,
           email,
           jiraToken,
@@ -70,9 +72,10 @@ const LoginForm = () => {
       setIsAuthenticated(true)
       setResponse(response.data)
       localStorage.setItem("response", JSON.stringify(response.data)) // save to local storage\
-      localStorage.setItem("domain", domain)
-      localStorage.setItem("email", email)
-      localStorage.setItem("jiraToken", token)
+      // Set a cookie
+      Cookies.set("domain", domain, { secure: true, sameSite: "strict" })
+      Cookies.set("email", email, { secure: true, sameSite: "strict" })
+      Cookies.set("jiraToken", token, { secure: true, sameSite: "strict" })
     } catch (error) {
       setIsAuthenticated(false)
     }
@@ -84,6 +87,9 @@ const LoginForm = () => {
       await toast.promise(
         new Promise((resolve, reject) => {
           localStorage.removeItem("response")
+          Cookies.remove("jiraToken")
+          Cookies.remove("domain")
+          Cookies.remove("email")
           setIsAuthenticated(false)
           resolve()
         }),

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
-import axios from "axios"
 import CryptoJS from "crypto-js"
+import axios from "axios"
+import Cookies from "js-cookie"
 
 import { Div, Text, Row, Col, Container, Image, Icon, Button } from "atomize"
 
@@ -61,9 +62,9 @@ export default function Features() {
 
   useEffect(() => {
     if (localStorage.getItem("authenticated")) {
-      setDomain(localStorage.getItem("domain"))
-      setEmail(localStorage.getItem("email"))
-      setToken(localStorage.getItem("jiraToken"))
+      setDomain(Cookies.get("domain"))
+      setEmail(Cookies.get("email"))
+      setToken(Cookies.get("jiraToken"))
     }
   }, [])
 
@@ -167,9 +168,9 @@ export default function Features() {
           : [],
       }
       const plaintext = token
-      const secretKey = "mysecretkey"
+      const secretKey =
+        "6eb495a40e5f50b839fcfaa5e3e0d37b6bd17fbd887c4a1ac28f9d0eb25bde01"
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
-
       const payload = {
         domain: domain,
         email: email,
@@ -208,7 +209,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "https://jira-backend.vercel.app/api/issue",
+          "http://localhost:4000/api/issue",
           payload
         )
         const successMessage = `${response.data}`
@@ -440,7 +441,7 @@ export default function Features() {
                   m={{ b: "3rem" }}
                 >
                   Jira Wizard streamlines the process of setting up{" "}
-                  <span style={{ color: "#06d7ff" }}> Jira Issues</span>.
+                  <span style={{ color: "#06d7ff" }}> Jira Issues</span>
                 </Text>
                 <Div>
                   <Row>
