@@ -203,7 +203,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "https://jira-backend.vercel.app/api/issue",
+          "http://localhost:4000/api/issue",
           payload
         )
         const successMessage = `${response.data}`
@@ -228,8 +228,12 @@ export default function Features() {
           result => result.status === "rejected"
         )
         if (rejectedPromises.length > 0) {
+          const errorMessages = rejectedPromises[0].reason.reasonMessage.split(
+            ":"
+          )[1]
+          const errorMessage = errorMessages.slice(1, errorMessages.length - 2)
           throw new Error(
-            `Issues were not created successfully. \n Error: ${rejectedPromises[0].reason.reasonMessage} \nPlease check your file and try again.`
+            `Issues were not created successfully. \n Error: ${errorMessage} \nPlease check your file and try again.`
           )
         }
         const successMessages = results
@@ -252,7 +256,7 @@ export default function Features() {
               </button>
             </span>,
             {
-              duration: 15000,
+              duration: 12000,
             }
           )
         })
