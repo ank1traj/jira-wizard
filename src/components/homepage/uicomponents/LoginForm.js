@@ -49,7 +49,7 @@ const LoginForm = () => {
       const secretKey = "mysecretkey"
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const response = await toast.promise(
-        axios.post("http://localhost:4000/api/user", {
+        axios.post("https://jira-backend.vercel.app/api/user", {
           domain,
           email,
           jiraToken,

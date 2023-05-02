@@ -208,7 +208,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/issue",
+          "https://jira-backend.vercel.app/api/issue",
           payload
         )
         const successMessage = `${response.data}`
