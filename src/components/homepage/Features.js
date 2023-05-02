@@ -133,7 +133,7 @@ export default function Features() {
         error: error => {
           return error.message
         },
-        duration: 6000,
+        duration: 7000,
       }
     )
   }
@@ -203,7 +203,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/issue",
+          "https://jira-backend.vercel.app/api/issue",
           payload
         )
         const successMessage = `${response.data}`
