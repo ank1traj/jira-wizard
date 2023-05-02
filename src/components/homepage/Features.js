@@ -203,7 +203,7 @@ export default function Features() {
       }
       try {
         const response = await axios.post(
-          "https://jira-backend.vercel.app/api/issue",
+          "http://localhost:4000/api/issue",
           payload
         )
         const successMessage = `${response.data}`
@@ -239,14 +239,29 @@ export default function Features() {
         const values = successMessages.map(message => message.value)
 
         values.forEach(message => {
-          toast.success(message)
+          // Extract the issue key from the response string
+          const issueKey = message.split("key ")[1].slice(1, 8)
+          // Extract the project key from the issue key
+          const projectKey = issueKey.split("-")[0]
+          const url = `https://${domain}.atlassian.net/jira/software/c/projects/${projectKey}/issues/${issueKey}`
+          toast.success(
+            <span>
+              Issue created: {issueKey}{" "}
+              <button onClick={() => window.open(url, "_blank")}>
+                Go to issue
+              </button>
+            </span>,
+            {
+              duration: 15000,
+            }
+          )
         })
 
         return values
       }),
       {
         loading: "Creating issues...",
-        success: "Issues created successfully!",
+        success: `Issues created successfully!`,
         error: error => {
           return error.message
         },
