@@ -415,8 +415,8 @@ export default function Features() {
                   textAlign="left"
                   m={{ b: "3rem" }}
                 >
-                  Jira Wizard features a sleek and consistent{" "}
-                  <span style={{ color: "#06d7ff" }}> user interface</span>.
+                  Jira Wizard streamlines the process of settig up{" "}
+                  <span style={{ color: "#06d7ff" }}> Jira Issues</span>.
                 </Text>
                 <Div>
                   <Row>
