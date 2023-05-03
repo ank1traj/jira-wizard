@@ -47,8 +47,8 @@ const LoginForm = () => {
 
     try {
       const plaintext = token
-      const secretKey =
-        "6eb495a40e5f50b839fcfaa5e3e0d37b6bd17fbd887c4a1ac28f9d0eb25bde01"
+      const secretKey = process.env.GATSBY_SECRET_KEY
+      console.log("secretKey", secretKey)
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const response = await toast.promise(
         axios.post("https://jira-backend.vercel.app/api/user", {
