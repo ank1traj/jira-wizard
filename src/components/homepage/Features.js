@@ -57,14 +57,10 @@ export default function Features() {
   const [selectedFileName, setSelectedFileName] = useState(null)
 
   const [domain, setDomain] = useState("")
-  const [email, setEmail] = useState("")
-  const [token, setToken] = useState("")
 
   useEffect(() => {
     if (localStorage.getItem("authenticated")) {
       setDomain(Cookies.get("domain"))
-      setEmail(Cookies.get("email"))
-      setToken(Cookies.get("jiraToken"))
     }
   }, [])
 
@@ -167,12 +163,12 @@ export default function Features() {
             }))
           : [],
       }
-      const plaintext = token
+      const plaintext = Cookies.get("jiraToken")
       const secretKey = process.env.GATSBY_SECRET_KEY
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const payload = {
-        domain: domain,
-        email: email,
+        domain: Cookies.get("domain"),
+        email: Cookies.get("email"),
         jiraToken: jiraToken,
         fields: {
           project: {
