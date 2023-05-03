@@ -250,7 +250,9 @@ export default function Features() {
 
         values.forEach(message => {
           // Extract the issue key from the response string
-          const issueKey = message.split("key ")[1].slice(1, 8)
+          const start = message.indexOf('"') + 1
+          const end = message.indexOf('"', start)
+          const issueKey = message.slice(start, end)
           // Extract the project key from the issue key
           const projectKey = issueKey.split("-")[0]
           const url = `https://${domain}.atlassian.net/jira/software/c/projects/${projectKey}/issues/${issueKey}`
