@@ -46,16 +46,32 @@ The Jira Wizard frontend requires the configuration of your Jira server details.
    
 Ensure that you have the necessary permissions and API access to create issues in your Jira instance.
 
-## Contributing
+### How to contribute?
 
-Contributions to Jira Wizard are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. Make sure to follow the contribution guidelines provided in the repository.
+Participating in open-source software (OSS) initiatives can provide a gratifying and satisfying experience. It offers an opportunity to acquire novel abilities while also contributing to a project that has a significant impact on the larger community.
+
+> Here are some steps you can take to contribute to this project
+
+- Remember to read [Code Of Conduct](/CODE_OF_CONDUCT.md) before contributing.
+- Follow the [Contribution Documents](/contributing.md)
+- Create an [issue](https://github.com/ank1traj/jira-wizard/issues/new/choose) to report bugs, and vulnerabilities or add a new feature.
+- Remember to add a [good commit message](https://gitopener.vercel.app/guides/general-terminology/How-to-write-professional-commits).
+- Don't spam if you do it your PR/issue will be closed.
+
+### Tech stack used
+
+Currently we are using NextJs framework for this project.
+
+![Gatsby](https://img.shields.io/badge/gatsby-purple?style=for-the-badge&logo=gatsby&logoColor=white)
+
+### Contributors
+
+We would like to extend our heartfelt gratitude to all the individuals who contributed to and supported this project. Your unwavering dedication, time, skills, and knowledge played a pivotal role in the success of this endeavor. Whether you offered code, documentation, testing, or provided valuable feedback and suggestions, please know that your contributions are highly valued and appreciated.
+
+<a href="https://github.com/ank1traj/jira-wizard/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ank1traj/jira-wizard" />
+</a>
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-
-
-
-
-
