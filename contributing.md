@@ -23,7 +23,8 @@ npm run dev or yarn run dev
 ```
 
 5. Make your changes and test them locally.
-6. Commit your changes with clear and concise commit messages.
+   
+7. Commit your changes with clear and concise commit messages.
 
 > You can check [how to write professional commits](https://gitopener.vercel.app/guides/general-terminology/How-to-write-professional-commits)
 
