@@ -60,12 +60,13 @@ Participating in open-source software (OSS) initiatives can provide a gratifying
 
 ### Tech stack used
 
-Currently we are using NextJs framework for this project.
+Currently we are using Gatsby framework for this project.
 
 ![Gatsby](https://img.shields.io/badge/gatsby-purple?style=for-the-badge&logo=gatsby&logoColor=white)
 
 ### BackEnd
-Currently we are using NextJs framework for this project.
+Currently we are using NodeJS framework for this project.
+
 ![NodeJS](https://img.shields.io/badge/node.js-gren?style=for-the-badge&logo=node.js&logoColor=white&labelColor=black)
 
 Repo - https://github.com/ank1traj/jira-backend
