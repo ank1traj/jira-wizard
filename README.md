@@ -64,6 +64,12 @@ Currently we are using NextJs framework for this project.
 
 ![Gatsby](https://img.shields.io/badge/gatsby-purple?style=for-the-badge&logo=gatsby&logoColor=white)
 
+### BackEnd
+Currently we are using NextJs framework for this project.
+![NodeJS](https://img.shields.io/badge/node.js-gren?style=for-the-badge&logo=node.js&logoColor=white&labelColor=black)
+
+Repo - https://github.com/ank1traj/jira-backend
+
 ### Contributors
 
 We would like to extend our heartfelt gratitude to all the individuals who contributed to and supported this project. Your unwavering dedication, time, skills, and knowledge played a pivotal role in the success of this endeavor. Whether you offered code, documentation, testing, or provided valuable feedback and suggestions, please know that your contributions are highly valued and appreciated.
