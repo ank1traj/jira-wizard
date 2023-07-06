@@ -1,10 +1,10 @@
 # Jira Wizard - Frontend
 
-Jira Wizard is a web application built with Gatsby that helps in creating bulk Jira issues by uploading CSV or JSON files. It provides an intuitive interface for managing and automating the process of importing and creating Jira issues from external data sources.
+Jira Wizard is a web application built with Gatsby that helps in creating bulk Jira issues by uploading XLSX or JSON files. It provides an intuitive interface for managing and automating the process of importing and creating Jira issues from external data sources.
 
 ## Features
 
-- Upload CSV or JSON files containing issue data
+- Upload XLSX or JSON files containing issue data
 - Map file fields to Jira issue fields
 - Preview imported data before creating issues
 - Handle errors and warnings during the import process
@@ -32,7 +32,7 @@ The application should now be running locally at `http://localhost:8000`.
 
 1. Access the Jira Wizard application in your web browser at `http://localhost:8000`.
 2. Login with Jira domain, email and API key.
-3. Click on the "Upload CSV" or "Upload JSON" button to select the file containing the Jira issue data.
+3. Click on the "Upload File" button to select the file containing the Jira issue data.
 4. Click the "Upload File" button to initiate the bulk creation process in Jira.
 5. Once the process is complete, you can view the newly created issues in your Jira instance.
 
