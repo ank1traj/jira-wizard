@@ -18,6 +18,13 @@ const LoginForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loginButtonClicked, setLoginButtonClicked] = useState(false)
 
+  const [isLoginDisabled, setIsLoginDisabled] = useState(false)
+
+  setTimeout(() => {
+    setIsLoginDisabled(false)
+  }, 60000)
+  let isDisabled = localStorage.getItem("isDisabled")
+
   const handleLogin = async e => {
     e.preventDefault()
     const errors = []
@@ -47,7 +54,9 @@ const LoginForm = () => {
 
     try {
       const plaintext = token
-      const secretKey = process.env.GATSBY_SECRET_KEY
+      // const secretKey = process.env.GATSBY_SECRET_KEY
+      const secretKey =
+        "6eb495a40e5f50b839fcfaa5e3e0d37b6bd17fbd887c4a1ac28f9d0eb25bde01"
       const jiraToken = CryptoJS.AES.encrypt(plaintext, secretKey).toString()
       const response = await toast.promise(
         axios.post("https://jira-backend.vercel.app/api/user", {
@@ -59,8 +68,23 @@ const LoginForm = () => {
           loading: "Authenticating...",
           success: "Authentication successful. Now upload your file!",
           error: response => {
+            // Code block where you handle the 401 response
+            if (response.response.status === 429 && isDisabled == null) {
+              setIsLoginDisabled(true)
+              localStorage.setItem("isDisabled", true)
+              return `We're smart too. Clearing local storage won't help you. Have Patience!`
+            }
+            if (response.response.status === 429) {
+              setIsLoginDisabled(true)
+              localStorage.setItem("isDisabled", true)
+              return `You've exhausted the login limit. Please try again after 5 minutes.`
+            }
+
             if (response.response.status === 401) {
               return `Authentication failed: ${response.response.data.message}`
+            }
+            if (response.response.status === 404) {
+              return `${response.response.data.message}`
             }
             return "Something went wrong"
           },
@@ -288,6 +312,7 @@ const LoginForm = () => {
           hoverBg="info300"
           textColor="info700"
           onClick={handleLogin}
+          disabled={isLoginDisabled}
         >
           Login
         </Button>

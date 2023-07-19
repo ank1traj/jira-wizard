@@ -76,7 +76,9 @@ export default function Features() {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
       selectedFile.type !== "application/json"
     ) {
-      toast.error("Error: Invalid file format", { duration: 6000 })
+      toast.error("Invalid file format. Please upload xlsx or json file.", {
+        duration: 6000,
+      })
       setIsValid(false)
       return
     }
