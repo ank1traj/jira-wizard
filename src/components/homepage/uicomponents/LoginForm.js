@@ -23,8 +23,12 @@ const LoginForm = () => {
   setTimeout(() => {
     setIsLoginDisabled(false)
   }, 60000)
-  let isDisabled = localStorage.getItem("isDisabled")
 
+  var isDisabled;
+  useEffect(() => {
+    isDisabled = localStorage.getItem("isDisabled")
+  }, [])
+  
   const handleLogin = async e => {
     e.preventDefault()
     const errors = []
