@@ -32,17 +32,13 @@ const LoginForm = () => {
   const handleLogin = async e => {
     e.preventDefault()
     const errors = []
-
-    if (!domain) {
-      errors.push("domain")
-    }
-    if (!email) {
-      errors.push("email")
-    }
-    if (!token) {
-      errors.push("token")
-    }
-
+    const requiredFields = ['domain', 'email', 'token'];
+    requiredFields.forEach(field => {
+      if (!eval(field)) {
+        errors.push(field);
+      }
+    });
+    
     if (errors.length) {
       toast.error(`Please enter your ${errors.join(", ")}`)
       return
