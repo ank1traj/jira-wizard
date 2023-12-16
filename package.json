@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "Ankit Raj",
   "dependencies": {
-    "@sentry/gatsby": "^7.50.0",
+    "@sentry/gatsby": "^7.88.0",
     "@sentry/react": "^7.50.0",
     "atomize": "^1.0.10",
     "axios": "^1.4.0",
