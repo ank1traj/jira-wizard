@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/gatsby"
+import { BrowserTracing } from "@sentry/tracing";
 
 Sentry.init({
   dsn: process.env.GATSBY_SENTRY_DSN,
