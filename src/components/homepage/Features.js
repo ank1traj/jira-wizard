@@ -373,6 +373,7 @@ export default function Features() {
                                   hoverBg="warning600"
                                   shadow="3"
                                   hoverShadow="4"
+                                  marginTop="-7rem"
                                   onClick={() => window.open("/templates/jira_template.xlsx", "_blank")}
                                 >
                                   XLSX Template
@@ -387,6 +388,7 @@ export default function Features() {
                                   hoverBg="danger600"
                                   shadow="3"
                                   hoverShadow="4"
+                                  marginLeft="10rem"
                                   onClick={() => window.open("/templates/jira_template.json", "_blank")}
                                 >
                                   JSON Template
