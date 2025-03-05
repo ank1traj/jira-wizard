@@ -361,35 +361,36 @@ export default function Features() {
                   Upload File
                 </Button>
 
-                {/* Adding template download buttons in the circle section */}
-                <Button
-                  pos="absolute"
-                  right="0"
-                  bottom="7.5rem"
-                  w="10rem"
-                  rounded="lg"
-                  bg="success700"
-                  hoverBg="success600"
-                  shadow="3"
-                  hoverShadow="4"
-                  onClick={() => window.open("/templates/jira_template.xlsx", "_blank")}
-                >
-                  XLSX Template
-                </Button>
-                <Button
-                  pos="absolute"
-                  right="0"
-                  bottom="11rem"
-                  w="10rem"
-                  rounded="lg"
-                  bg="success700"
-                  hoverBg="success600"
-                  shadow="3"
-                  hoverShadow="4"
-                  onClick={() => window.open("/templates/jira_template.json", "_blank")}
-                >
-                  JSON Template
-                </Button>
+                {/* Repositioned template download buttons with different colors */}
+                {/* Template download buttons with correct paths */}
+                                <Button
+                                  pos="absolute"
+                                  left="2rem"
+                                  top="11rem"
+                                  w="10rem"
+                                  rounded="lg"
+                                  bg="warning700"
+                                  hoverBg="warning600"
+                                  shadow="3"
+                                  hoverShadow="4"
+                                  onClick={() => window.open("/templates/jira_template.xlsx", "_blank")}
+                                >
+                                  XLSX Template
+                                </Button>
+                                <Button
+                                  pos="absolute"
+                                  left="5rem"
+                                  bottom="3rem"
+                                  w="10rem"
+                                  rounded="lg"
+                                  bg="danger700"
+                                  hoverBg="danger600"
+                                  shadow="3"
+                                  hoverShadow="4"
+                                  onClick={() => window.open("/templates/jira_template.json", "_blank")}
+                                >
+                                  JSON Template
+                                </Button>
 
                 {isValid && selectedFileName ? (
                   <Button
