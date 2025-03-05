@@ -44,7 +44,7 @@ class CardComponent extends React.Component {
               m={{ r: "1rem" }}
               rounded="circle"
             ></Div>
-            <Text textWeight="500"> Ajay George</Text>
+            <Text textWeight="500"> Jira Wizard</Text>
           </Div>
           <Icon
             transition
