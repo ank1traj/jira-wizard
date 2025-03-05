@@ -360,6 +360,37 @@ export default function Features() {
                 >
                   Upload File
                 </Button>
+
+                {/* Adding template download buttons in the circle section */}
+                <Button
+                  pos="absolute"
+                  right="0"
+                  bottom="7.5rem"
+                  w="10rem"
+                  rounded="lg"
+                  bg="success700"
+                  hoverBg="success600"
+                  shadow="3"
+                  hoverShadow="4"
+                  onClick={() => window.open("/templates/jira_template.xlsx", "_blank")}
+                >
+                  XLSX Template
+                </Button>
+                <Button
+                  pos="absolute"
+                  right="0"
+                  bottom="11rem"
+                  w="10rem"
+                  rounded="lg"
+                  bg="success700"
+                  hoverBg="success600"
+                  shadow="3"
+                  hoverShadow="4"
+                  onClick={() => window.open("/templates/jira_template.json", "_blank")}
+                >
+                  JSON Template
+                </Button>
+
                 {isValid && selectedFileName ? (
                   <Button
                     pos="absolute"
@@ -476,71 +507,6 @@ export default function Features() {
               </Div>
             </Col>
           </Row>
-        </Div>
-
-        {/* Adding template file download section */}
-        <Div
-          p={{ y: "3rem" }}
-          d="flex"
-          flexDir="column"
-          align="center"
-          border={{ b: "1px solid" }}
-          borderColor="gray300"
-        >
-          <Text
-            tag="h3"
-            textSize="heading"
-            textWeight="500"
-            textAlign="center"
-            m={{ b: "1.5rem" }}
-          >
-            Need a File Template?
-          </Text>
-          <Text
-            textSize="paragraph"
-            textAlign="center"
-            maxW="36rem"
-            m={{ b: "2rem" }}
-          >
-            Download our template files to get started quickly. The templates contain all required fields for creating Jira issues.
-          </Text>
-          <Div d="flex" flexDir={{ xs: "column", md: "row" }} m={{ b: "1rem" }}>
-            <Button
-              h="3rem"
-              p={{ x: "1.5rem" }}
-              textSize="body"
-              textWeight="500"
-              bg="info700"
-              hoverBg="info600"
-              rounded="lg"
-              shadow="3"
-              hoverShadow="4"
-              m={{ r: { md: "1rem" }, b: { xs: "1rem", md: "0" } }}
-              onClick={() => window.open("/templates/jira_template.xlsx", "_blank")}
-            >
-              Download XLSX Template
-            </Button>
-            <Button
-              h="3rem"
-              p={{ x: "1.5rem" }}
-              textSize="body"
-              textWeight="500"
-              bg="info700"
-              hoverBg="info600"
-              rounded="lg"
-              shadow="3"
-              hoverShadow="4"
-              onClick={() => window.open("/templates/jira_template.json", "_blank")}
-            >
-              Download JSON Template
-            </Button>
-          </Div>
-          <Text
-            textSize="caption"
-            textColor="medium"
-          >
-            Fill in the template with your data and upload it above
-          </Text>
         </Div>
       </Container>
     </Div>
